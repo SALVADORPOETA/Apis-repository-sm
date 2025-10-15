@@ -26,7 +26,8 @@ export default async function ManageSectionPage(props: SectionPageProps) {
       process.env.NODE_ENV === 'production' && process.env.VERCEL_URL
         ? `https://${process.env.VERCEL_URL}` // Usa VERCEL_URL si está disponible en producción
         : 'http://localhost:3000'
-
+    // 🚨 HAZ UN TEST: Si la variable está undefined, ¿a dónde apunta la URL?
+    console.log('Base URL used for fetch:', baseUrl)
     const res = await fetch(`${baseUrl}/api/${project}/${section}`, {
       // Configuraciones para que Next.js no cachee la data si la quieres fresca
       cache: 'no-store',
