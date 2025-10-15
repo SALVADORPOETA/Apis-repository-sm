@@ -15,12 +15,11 @@ const isAuthenticated = (request: Request): boolean => {
   return !!ADMIN_KEY && providedKey === ADMIN_KEY
 }
 
-type Params = Promise<{ project: string; section: string; id: string }>
+type Params = { project: string; section: string }
 
 // GET
 export async function GET(request: Request, context: { params: Params }) {
-  const params = await context.params
-  const { project, section } = params
+  const { project, section } = context.params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
@@ -57,8 +56,7 @@ export async function POST(request: Request, context: { params: Params }) {
     )
   }
 
-  const params = await context.params
-  const { project, section } = params
+  const { project, section } = context.params
 
   try {
     const body = await request.json()
@@ -85,8 +83,7 @@ export async function PATCH(request: Request, context: { params: Params }) {
     )
   }
 
-  const params = await context.params
-  const { project, section } = params
+  const { project, section } = context.params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
@@ -130,8 +127,7 @@ export async function DELETE(request: Request, context: { params: Params }) {
     )
   }
 
-  const params = await context.params
-  const { project, section } = params
+  const { project, section } = context.params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
