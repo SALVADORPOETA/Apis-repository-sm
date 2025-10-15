@@ -58,13 +58,56 @@ export function ManageSectionClient({
   // Estado crítico para la autenticación
   const [adminKey, setAdminKey] = useState('')
 
-  // NUEVO: Leer la clave de localStorage al cargar el componente
   useEffect(() => {
     const storedKey = localStorage.getItem('adminKey')
     if (storedKey) {
       setAdminKey(storedKey)
     }
   }, [])
+
+  // ----------------------------------------------------
+  // ✅ EFECTO PARA OBTENER LA DATA PÚBLICA (SOLO DEPENDE DE PROJECT Y SECTION)
+  // ----------------------------------------------------
+  useEffect(() => {
+    async function fetchData() {
+      setIsLoading(true)
+      // Mantén el initialError que pudo venir del Server Component si quieres
+      // pero limpia los errores de red/fetch al empezar la carga.
+      setError(null)
+
+      try {
+        // ✅ USAR RUTA RELATIVA. SIN HEADERS DE AUTENTICACIÓN.
+        const response = await fetch(`/api/${project}/${section}`, {
+          method: 'GET',
+          headers: {
+            // ¡Quitamos el header 'X-Admin-Key' completamente de aquí!
+            'Cache-Control': 'no-store',
+          },
+        })
+
+        if (!response.ok) {
+          // Si falla, el error proviene del Route Handler (e.g., Firebase).
+          const result = await response.json()
+          setError(
+            result.message || `Error ${response.status}: Failed to load data.`
+          )
+        } else {
+          const fetchedData = await response.json()
+          setData(fetchedData)
+        }
+      } catch (e) {
+        console.error('Client-side fetch error:', e)
+        setError('Network error (Client).')
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    // Ejecutar el fetch inmediatamente.
+    fetchData()
+
+    // El fetch de data pública SÓLO depende de project y section.
+  }, [project, section])
 
   // Estados para la gestión de modales y edición
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
