@@ -8,12 +8,12 @@ import {
   deleteDataItem,
 } from '@/lib/firebase-utils' // <-- ahora apunta a firebase-utils
 
-const ADMIN_KEY = process.env.ADMIN_SECRET_KEY
+// const ADMIN_KEY = process.env.ADMIN_SECRET_KEY
 
-const isAuthenticated = (request: Request): boolean => {
-  const providedKey = request.headers.get('X-Admin-Key')
-  return !!ADMIN_KEY && providedKey === ADMIN_KEY
-}
+// const isAuthenticated = (request: Request): boolean => {
+//   const providedKey = request.headers.get('X-Admin-Key')
+//   return !!ADMIN_KEY && providedKey === ADMIN_KEY
+// }
 
 type Params = Promise<{ project: string; section: string }>
 
@@ -50,12 +50,12 @@ export async function GET(request: Request, context: { params: Params }) {
 
 // POST
 export async function POST(request: Request, context: { params: Params }) {
-  if (!isAuthenticated(request)) {
-    return NextResponse.json(
-      { message: 'Unauthorized: Invalid Admin Key' },
-      { status: 401 }
-    )
-  }
+  // if (!isAuthenticated(request)) {
+  //   return NextResponse.json(
+  //     { message: 'Unauthorized: Invalid Admin Key' },
+  //     { status: 401 }
+  //   )
+  // }
 
   const params = await context.params
   const { project, section } = params
@@ -78,12 +78,12 @@ export async function POST(request: Request, context: { params: Params }) {
 
 // PATCH
 export async function PATCH(request: Request, context: { params: Params }) {
-  if (!isAuthenticated(request)) {
-    return NextResponse.json(
-      { message: 'Unauthorized: Invalid Admin Key' },
-      { status: 401 }
-    )
-  }
+  // if (!isAuthenticated(request)) {
+  //   return NextResponse.json(
+  //     { message: 'Unauthorized: Invalid Admin Key' },
+  //     { status: 401 }
+  //   )
+  // }
 
   const params = await context.params
   const { project, section } = params
@@ -123,12 +123,12 @@ export async function PATCH(request: Request, context: { params: Params }) {
 
 // DELETE
 export async function DELETE(request: Request, context: { params: Params }) {
-  if (!isAuthenticated(request)) {
-    return NextResponse.json(
-      { message: 'Unauthorized: Invalid Admin Key' },
-      { status: 401 }
-    )
-  }
+  // if (!isAuthenticated(request)) {
+  //   return NextResponse.json(
+  //     { message: 'Unauthorized: Invalid Admin Key' },
+  //     { status: 401 }
+  //   )
+  // }
 
   const params = await context.params
   const { project, section } = params
