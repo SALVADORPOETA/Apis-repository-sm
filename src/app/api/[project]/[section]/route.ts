@@ -1,5 +1,5 @@
 // src/app/api/[project]/[section]/route.ts
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 import {
   getSectionData,
   getDataItem,
@@ -10,19 +10,18 @@ import {
 
 const ADMIN_KEY = process.env.ADMIN_SECRET_KEY
 
-const isAuthenticated = (request: NextRequest): boolean => {
+const isAuthenticated = (request: Request): boolean => {
   const providedKey = request.headers.get('X-Admin-Key')
   return !!ADMIN_KEY && providedKey === ADMIN_KEY
 }
 
-type Params = { project: string; section: string }
+type Params = Promise<{ project: string; section: string }>
 
 // GET
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ project: string; section: string }> }
-) {
-  const { project, section } = await context.params
+export async function GET(request: Request, context: { params: Params }) {
+  const params = await context.params
+  const { project, section } = params
+
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
 
@@ -50,10 +49,7 @@ export async function GET(
 }
 
 // POST
-export async function POST(
-  request: NextRequest,
-  context: { params: Promise<{ project: string; section: string }> }
-) {
+export async function POST(request: Request, context: { params: Params }) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -61,7 +57,8 @@ export async function POST(
     )
   }
 
-  const { project, section } = await context.params
+  const params = await context.params
+  const { project, section } = params
 
   try {
     const body = await request.json()
@@ -80,10 +77,7 @@ export async function POST(
 }
 
 // PATCH
-export async function PATCH(
-  request: NextRequest,
-  context: { params: Promise<{ project: string; section: string }> }
-) {
+export async function PATCH(request: Request, context: { params: Params }) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -91,7 +85,8 @@ export async function PATCH(
     )
   }
 
-  const { project, section } = await context.params
+  const params = await context.params
+  const { project, section } = params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
@@ -127,10 +122,7 @@ export async function PATCH(
 }
 
 // DELETE
-export async function DELETE(
-  request: NextRequest,
-  context: { params: Promise<{ project: string; section: string }> }
-) {
+export async function DELETE(request: Request, context: { params: Params }) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -138,7 +130,8 @@ export async function DELETE(
     )
   }
 
-  const { project, section } = await context.params
+  const params = await context.params
+  const { project, section } = params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
