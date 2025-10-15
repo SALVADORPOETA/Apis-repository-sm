@@ -18,9 +18,11 @@ const isAuthenticated = (request: NextRequest): boolean => {
 type Params = { project: string; section: string }
 
 // GET
-export async function GET(request: NextRequest, context: { params: Params }) {
-  const { project, section } = context.params
-
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ project: string; section: string }> }
+) {
+  const { project, section } = await context.params
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
 
@@ -48,7 +50,10 @@ export async function GET(request: NextRequest, context: { params: Params }) {
 }
 
 // POST
-export async function POST(request: NextRequest, context: { params: Params }) {
+export async function POST(
+  request: NextRequest,
+  context: { params: Promise<{ project: string; section: string }> }
+) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -56,7 +61,7 @@ export async function POST(request: NextRequest, context: { params: Params }) {
     )
   }
 
-  const { project, section } = context.params
+  const { project, section } = await context.params
 
   try {
     const body = await request.json()
@@ -75,7 +80,10 @@ export async function POST(request: NextRequest, context: { params: Params }) {
 }
 
 // PATCH
-export async function PATCH(request: NextRequest, context: { params: Params }) {
+export async function PATCH(
+  request: NextRequest,
+  context: { params: Promise<{ project: string; section: string }> }
+) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -83,7 +91,7 @@ export async function PATCH(request: NextRequest, context: { params: Params }) {
     )
   }
 
-  const { project, section } = context.params
+  const { project, section } = await context.params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
@@ -121,7 +129,7 @@ export async function PATCH(request: NextRequest, context: { params: Params }) {
 // DELETE
 export async function DELETE(
   request: NextRequest,
-  context: { params: Params }
+  context: { params: Promise<{ project: string; section: string }> }
 ) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
@@ -130,7 +138,7 @@ export async function DELETE(
     )
   }
 
-  const { project, section } = context.params
+  const { project, section } = await context.params
 
   const url = new URL(request.url)
   const id = url.searchParams.get('id')
