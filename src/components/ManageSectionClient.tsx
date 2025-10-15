@@ -37,12 +37,6 @@ export function ManageSectionClient({
   initialData,
   initialError,
 }: ManageSectionClientProps) {
-  // if (!project?.key) {
-  //   console.error('Project key is missing!')
-  //   return (
-  //     <div className="p-4 text-red-500">Error: Project key is missing!</div>
-  //   )
-  // }
   // ----------------------------------------------------
   // Bloqueo
   // ----------------------------------------------------
