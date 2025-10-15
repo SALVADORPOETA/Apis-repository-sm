@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "scripts/migrateProjectsToFirebase.mts",
-    "scripts/migrateProjectsToFirebase.cjs"
+    "scripts/migrateProjectsToFirebase.cjs",
+    "next.config.mjs"
   ],
   "exclude": ["node_modules"]
 }
