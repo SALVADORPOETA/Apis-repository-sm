@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth-utils'
 
-const SESSION_DURATION_SECONDS = 1 // 5 minutos de sesión
+const SESSION_DURATION_SECONDS = 300 // 5 minutos de sesión
 
 export async function POST(request: Request) {
   if (isAuthenticated(request)) {
