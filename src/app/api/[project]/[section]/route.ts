@@ -1,5 +1,5 @@
 // src/app/api/[project]/[section]/route.ts
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import {
   getSectionData,
   getDataItem,
@@ -10,7 +10,7 @@ import {
 
 const ADMIN_KEY = process.env.ADMIN_SECRET_KEY
 
-const isAuthenticated = (request: Request): boolean => {
+const isAuthenticated = (request: NextRequest): boolean => {
   const providedKey = request.headers.get('X-Admin-Key')
   return !!ADMIN_KEY && providedKey === ADMIN_KEY
 }
@@ -18,7 +18,7 @@ const isAuthenticated = (request: Request): boolean => {
 type Params = { project: string; section: string }
 
 // GET
-export async function GET(request: Request, context: { params: Params }) {
+export async function GET(request: NextRequest, context: { params: Params }) {
   const { project, section } = context.params
 
   const url = new URL(request.url)
@@ -48,7 +48,7 @@ export async function GET(request: Request, context: { params: Params }) {
 }
 
 // POST
-export async function POST(request: Request, context: { params: Params }) {
+export async function POST(request: NextRequest, context: { params: Params }) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -75,7 +75,7 @@ export async function POST(request: Request, context: { params: Params }) {
 }
 
 // PATCH
-export async function PATCH(request: Request, context: { params: Params }) {
+export async function PATCH(request: NextRequest, context: { params: Params }) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -119,7 +119,10 @@ export async function PATCH(request: Request, context: { params: Params }) {
 }
 
 // DELETE
-export async function DELETE(request: Request, context: { params: Params }) {
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Params }
+) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
