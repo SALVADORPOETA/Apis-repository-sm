@@ -1,0 +1,26 @@
+[
+  {
+    "key": "idNum",
+    "type": "input"
+  },
+  {
+    "key": "link",
+    "type": "input"
+  },
+  {
+    "key": "name",
+    "type": "input"
+  },
+  {
+    "key": "category",
+    "type": "input"
+  },
+  {
+    "key": "image",
+    "type": "input"
+  },
+  {
+    "key": "price",
+    "type": "input"
+  }
+]

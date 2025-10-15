@@ -1,0 +1,38 @@
+[
+  {
+    "key": "mayapan",
+    "name": "Mayapan",
+    "sections": [
+      "home",
+      "history",
+      "cities"
+    ]
+  },
+  {
+    "key": "bharat",
+    "name": "Bharat",
+    "sections": [
+      "home",
+      "history",
+      "languages"
+    ]
+  },
+  {
+    "key": "kemet",
+    "name": "Kemet",
+    "sections": [
+      "home",
+      "history",
+      "gods"
+    ]
+  },
+  {
+    "key": "empire",
+    "name": "Empire",
+    "sections": [
+      "home",
+      "culture",
+      "products"
+    ]
+  }
+]

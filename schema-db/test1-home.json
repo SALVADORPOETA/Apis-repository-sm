@@ -1,0 +1,14 @@
+[
+  {
+    "key": "idNum",
+    "type": "input"
+  },
+  {
+    "key": "nuevo_campo_2",
+    "type": "input"
+  },
+  {
+    "key": "nuevo_campo_4",
+    "type": "input"
+  }
+]

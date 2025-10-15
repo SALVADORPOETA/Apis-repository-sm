@@ -1,0 +1,30 @@
+[
+  {
+    "key": "idNum",
+    "type": "input"
+  },
+  {
+    "key": "section",
+    "type": "input"
+  },
+  {
+    "key": "p1",
+    "type": "textarea"
+  },
+  {
+    "key": "p2",
+    "type": "textarea"
+  },
+  {
+    "key": "title",
+    "type": "input"
+  },
+  {
+    "key": "image",
+    "type": "input"
+  },
+  {
+    "key": "description",
+    "type": "textarea"
+  }
+]

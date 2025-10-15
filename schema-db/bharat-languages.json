@@ -1,0 +1,22 @@
+[
+  {
+    "key": "idNum",
+    "type": "input"
+  },
+  {
+    "key": "name",
+    "type": "input"
+  },
+  {
+    "key": "image",
+    "type": "input"
+  },
+  {
+    "key": "description",
+    "type": "textarea"
+  },
+  {
+    "key": "family",
+    "type": "input"
+  }
+]
