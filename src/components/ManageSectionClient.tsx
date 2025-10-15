@@ -72,34 +72,6 @@ export function ManageSectionClient({
     }
   }, [])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (!adminKey) return
-
-      try {
-        const res = await fetch(`/api/${project.key}/${section}`, {
-          headers: {
-            'X-Admin-Key': adminKey,
-          },
-        })
-
-        if (!res.ok) {
-          const err = await res.json()
-          setError(err.message || 'Error fetching data')
-          return
-        }
-
-        const items = await res.json()
-        setData(items)
-      } catch (e) {
-        console.error('Error fetching data:', e)
-        setError('Network or server error')
-      }
-    }
-
-    fetchData()
-  }, [project.key, section, adminKey])
-
   // Estados para la gestión de modales y edición
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<IDataItem | null>(null)
