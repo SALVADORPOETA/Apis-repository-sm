@@ -1,19 +1,19 @@
-// src/app/api/schemas/[project]/[section]/route.ts
-
 import { NextResponse, NextRequest } from 'next/server'
 import { getSectionSchema, setSectionSchema } from '@/lib/schema-utils-firebase'
 import { isAuthenticated } from '@/lib/auth-utils'
 import { DocumentData } from 'firebase/firestore'
-// Usamos un tipo para claridad, PERO la implementación de Next.js lo pasa como Promise.
-type Params = { project: string; section: string }
+
+// ✅ DEFINICIÓN DE TIPO CORRECTA: El compilador de Next.js espera 'params' como una Promise.
+type Params = Promise<{ project: string; section: string }>
 
 // GET: Leer el esquema de la sección (PÚBLICO)
 export async function GET(
   request: Request,
   context: { params: Params }
 ): Promise<NextResponse<DocumentData | { fields: [] } | { message: string }>> {
-  // ✅ CLAVE: Hacemos AWAIT del objeto 'params' del contexto
-  const { project, section } = context.params
+  // 1. DESESTRUCTURACIÓN DE PARÁMETROS (¡CLAVE PARA LA COMPILACIÓN!)
+  const params = await context.params
+  const { project, section } = params
 
   try {
     const schemaData = await getSectionSchema(project, section)
@@ -41,11 +41,11 @@ export async function POST(
     )
   }
 
-  // ✅ CLAVE: Hacemos AWAIT del objeto 'params' del contexto
-  const { project, section } = context.params
+  // 2. DESESTRUCTURACIÓN DE PARÁMETROS (¡CLAVE PARA LA COMPILACIÓN!)
+  const params = await context.params
+  const { project, section } = params
 
   try {
-    // 2. OBTENER DATOS
     const newFields = await request.json()
 
     console.log(
