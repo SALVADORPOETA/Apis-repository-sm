@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server'
 import { isAuthenticated } from '@/lib/auth-utils'
 
-// const SESSION_DURATION_SECONDS = 300 // 5 minutos de sesión
+const SESSION_DURATION_SECONDS = 1 // 5 minutos de sesión
 
 export async function POST(request: Request) {
   if (isAuthenticated(request)) {
@@ -11,15 +11,15 @@ export async function POST(request: Request) {
       message: 'Authentication successful',
     }) // Establecer cookie HttpOnly con duración limitada
 
-    // response.cookies.set({
-    //   name: 'admin-access',
-    //   value: 'true',
-    //   path: '/admin', // <--- Aplica solo a /admin y sus subrutas
-    //   httpOnly: true,
-    //   sameSite: 'strict',
-    //   secure: false,
-    //   maxAge: SESSION_DURATION_SECONDS, // ¡La cookie expira después de este tiempo!
-    // })
+    response.cookies.set({
+      name: 'admin-access',
+      value: 'true',
+      path: '/admin', // <--- Aplica solo a /admin y sus subrutas
+      httpOnly: true,
+      sameSite: 'strict',
+      secure: false,
+      maxAge: SESSION_DURATION_SECONDS, // ¡La cookie expira después de este tiempo!
+    })
 
     return response
   }

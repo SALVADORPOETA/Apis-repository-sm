@@ -69,11 +69,8 @@ export function ManageSectionClient({
   // ----------------------------------------------------
   // LÓGICA DE ESQUEMA DINÁMICO
   // ----------------------------------------------------
-  // 🔧 FIX: Initialize with default array to prevent .map errors
-  const [fieldKeys, setFieldKeys] = useState<IField[]>([
-    { key: 'title', type: 'input' },
-    { key: 'description', type: 'textarea' },
-  ])
+  // 🔧 FIX: Initialize with empty array to prevent .map errors
+  const [fieldKeys, setFieldKeys] = useState<IField[]>([])
   const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false)
 
   // 1. EFECTO: Obtener el esquema de la API al cargar el componente
@@ -81,18 +78,32 @@ export function ManageSectionClient({
     const fetchSchema = async () => {
       try {
         // Llama a la nueva API de esquemas (endpoint público GET)
-        const res = await fetch(`/api/schemas/${project}/${section}`)
+        const res = await fetch(`/api/schemas/${project}/${section}`, {
+          method: 'GET',
+          headers: {
+            'Cache-Control': 'no-store',
+          },
+        })
+
         if (res.ok) {
-          const schema = await res.json()
-          // 🔧 FIX: Validate that schema is an array before setting
-          if (Array.isArray(schema)) {
+          const response = await res.json()
+          console.log('Schema response from API:', response)
+
+          // 🔧 FIX: La API devuelve { fields: [...] }, no el array directamente
+          const schema = response.fields || response
+
+          // Validate that schema is an array before setting
+          if (Array.isArray(schema) && schema.length > 0) {
+            console.log('Setting schema with', schema.length, 'fields')
             setFieldKeys(schema)
+          } else {
+            console.log('No schema found or empty schema')
           }
+        } else {
+          console.log('Failed to fetch schema:', res.status, res.statusText)
         }
-        // If not ok or not array, keep default values
       } catch (e) {
         console.error('Error fetching schema:', e)
-        // Keep default values on error
       }
     }
     fetchSchema()
@@ -160,7 +171,12 @@ export function ManageSectionClient({
       })
 
       if (response.ok) {
-        setFieldKeys(newSchema)
+        const result = await response.json()
+        console.log('Schema saved successfully:', result)
+
+        // 🔧 FIX: Extraer fields de la respuesta si existe
+        const savedSchema = result.fields || result
+        setFieldKeys(Array.isArray(savedSchema) ? savedSchema : newSchema)
         setIsSchemaModalOpen(false)
         setError(null)
       } else {
@@ -200,12 +216,9 @@ export function ManageSectionClient({
   }
 
   // ----------------------------------------------------
-  // LÓGICA DE API (POST/PATCH/DELETE) - Descomentada
+  // LÓGICA DE API (POST/PATCH/DELETE)
   // ----------------------------------------------------
 
-  /**
-   * Maneja la creación de un nuevo ítem (POST).
-   */
   const handleCreateItem = async (newItemData: Omit<IDataItem, 'id'>) => {
     if (!adminKey) {
       setError(
@@ -245,9 +258,6 @@ export function ManageSectionClient({
     }
   }
 
-  /**
-   * Maneja la actualización de un ítem existente (PATCH).
-   */
   const handleUpdateItem = async (updatedItem: IDataItem) => {
     if (!adminKey) {
       setError(
@@ -293,9 +303,6 @@ export function ManageSectionClient({
     }
   }
 
-  /**
-   * Maneja la eliminación de un ítem (DELETE).
-   */
   const handleDeleteItem = async (id: number | string) => {
     if (!adminKey) {
       setError(
@@ -380,43 +387,8 @@ export function ManageSectionClient({
         className={`flex items-center text-3xl font-extrabold mb-5 ${darkTheme.colors.heading}`}
       >
         CMS: {project.toString().toUpperCase()}/{section.toUpperCase()}
-        {/* Botón de 3 puntos */}
-        {/* <div className="relative">
-          <button
-            onClick={() => setShowMenu((prev) => !prev)}
-            className={`px-2 py-0 mx-2 rounded-full hover:bg-gray-800 transition ${darkTheme.colors.text} cursor-pointer`}
-          >
-            ⋮
-          </button>
-
-          {showMenu && (
-            <div
-              ref={menuRef}
-              className={`absolute right-0 mt-2 w-40 ${darkTheme.colors.card} ${darkTheme.rounded} ${darkTheme.shadow} border border-gray-700`}
-            >
-              <button
-                onClick={() => {
-                  setShowMenu(false)
-                  setSectionToEdit(section) // 'section' es la sección actual del iterador
-                  setEditingSection(true)
-                }}
-                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 cursor-pointer"
-              >
-                Edit Section
-              </button>
-              <button
-                onClick={() => {
-                  setShowMenu(false)
-                  // setShowDeleteModal(true)
-                }}
-                className="w-full text-left px-4 py-2 text-sm hover:bg-gray-700 text-red-400 cursor-pointer"
-              >
-                Delete Section
-              </button>
-            </div>
-          )}
-        </div> */}
       </h1>
+
       <div className="mb-6">
         {sections.map((sec, index) => (
           <div
@@ -466,7 +438,6 @@ export function ManageSectionClient({
           Section Items ({data.length})
         </h2>
         <div className="flex space-x-3">
-          {/* Botón: Configurar Esquema */}
           <button
             onClick={() => setIsSchemaModalOpen(true)}
             className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonExtra} font-semibold ${darkTheme.rounded} shadow-md transition duration-150 disabled:opacity-50 cursor-pointer`}
@@ -475,7 +446,6 @@ export function ManageSectionClient({
             ⚙️ Configure Fields ({fieldKeys.length})
           </button>
 
-          {/* Botón: Add New Item */}
           <button
             onClick={() => setIsCreateModalOpen(true)}
             className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonPrimary} font-semibold ${darkTheme.rounded} shadow-md hover:bg-indigo-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
@@ -484,7 +454,6 @@ export function ManageSectionClient({
             {isLoading ? 'Loading...' : '+ Add New Item'}
           </button>
 
-          {/* Botón: Sort */}
           <button
             className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonInfo} font-semibold ${darkTheme.rounded} shadow-md hover:bg-blue-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
             onClick={() => setSortIdNumAsc(!sortIdNumAsc)}
@@ -493,6 +462,7 @@ export function ManageSectionClient({
           </button>
         </div>
       </div>
+
       <div
         className={`${darkTheme.colors.card} ${darkTheme.spacing.cardPadding} ${darkTheme.rounded} ${darkTheme.shadow} overflow-x-auto`}
       >
@@ -502,22 +472,21 @@ export function ManageSectionClient({
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400 cursor-pointer">
                 ID
               </th>
-              {Array.isArray(fieldKeys) &&
-                fieldKeys.map((field) => (
-                  <th
-                    key={field.key}
-                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400"
-                  >
-                    {field.key}
-                  </th>
-                ))}
+              {fieldKeys.map((field) => (
+                <th
+                  key={field.key}
+                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400"
+                >
+                  {field.key}
+                </th>
+              ))}
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {(sortedData || []).map((item, index) => (
+            {sortedData.map((item, index) => (
               <tr
                 key={item.id || index}
                 className="hover:bg-indigo-900/10 transition-colors"
@@ -525,15 +494,14 @@ export function ManageSectionClient({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {item.id}
                 </td>
-                {Array.isArray(fieldKeys) &&
-                  fieldKeys.map((field) => (
-                    <td
-                      key={`${item.id}-${field.key}`}
-                      className="px-6 py-4 text-sm text-gray-300 truncate max-w-xs"
-                    >
-                      {String(item[field.key]).substring(0, 50)}...
-                    </td>
-                  ))}
+                {fieldKeys.map((field) => (
+                  <td
+                    key={`${item.id}-${field.key}`}
+                    className="px-6 py-4 text-sm text-gray-300 truncate max-w-xs"
+                  >
+                    {String(item[field.key] || '').substring(0, 50)}...
+                  </td>
+                ))}
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
                   <button
                     onClick={() => setEditingItem(item)}
@@ -554,7 +522,7 @@ export function ManageSectionClient({
         </table>
       </div>
 
-      {/* Modal de Confirmación de Eliminación (Reemplazo de confirm()) */}
+      {/* Modal de Confirmación de Eliminación */}
       {deletingId !== null && (
         <div
           className={`fixed inset-0 ${darkTheme.colors.modalOverlay} flex items-center justify-center p-4 z-50`}
@@ -595,6 +563,7 @@ export function ManageSectionClient({
           </div>
         </div>
       )}
+
       {/* Modal de Creación */}
       {isCreateModalOpen && (
         <CreateItemForm
