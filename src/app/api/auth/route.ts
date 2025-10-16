@@ -17,7 +17,7 @@ export async function POST(request: Request) {
       path: '/admin', // <--- Aplica solo a /admin y sus subrutas
       httpOnly: true,
       sameSite: 'strict',
-      secure: false,
+      secure: process.env.NODE_ENV === 'production',
       maxAge: SESSION_DURATION_SECONDS, // ¡La cookie expira después de este tiempo!
     })
 
