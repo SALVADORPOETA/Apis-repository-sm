@@ -34,12 +34,36 @@ export async function POST(request: Request, context: { params: Params }) {
 
   try {
     const newSchema = await request.json()
-    const updatedSchema = updateSchema(project, section, newSchema)
-    return NextResponse.json(updatedSchema)
+
+    // 🚨 AQUÍ ES DONDE NECESITAS EL PRÓXIMO LOG 🚨
+    console.log(
+      '[SCHEMA-UPDATE] Intentando actualizar el esquema en Firebase...'
+    )
+
+    const updatedSchema = updateSchema(project, section, newSchema) // <--- Esta línea está fallando
+
+    // El log se detiene si hay un error en updateSchema
+    console.log('[SCHEMA-UPDATE] Esquema actualizado con éxito.')
+
+    return NextResponse.json(updatedSchema) // <-- Se ejecutó, por eso Vercel te muestra 200
   } catch (error) {
+    // ❌ ¡El error DEBE estar siendo capturado aquí! ❌
+    console.error('[SCHEMA-UPDATE] FALLO FATAL DENTRO DE UPDATE-SCHEMA:', error)
+
     return NextResponse.json(
       { message: 'Error updating schema' },
       { status: 500 }
     )
   }
+
+  // try {
+  //   const newSchema = await request.json()
+  //   const updatedSchema = updateSchema(project, section, newSchema)
+  //   return NextResponse.json(updatedSchema)
+  // } catch (error) {
+  //   return NextResponse.json(
+  //     { message: 'Error updating schema' },
+  //     { status: 500 }
+  //   )
+  // }
 }
