@@ -1,26 +1,23 @@
 // src/app/api/schemas/[project]/[section]/route.ts
 
-import { NextResponse } from 'next/server'
-// Asegúrate de que este archivo usa las funciones de Firebase (getSectionSchema y setSectionSchema)
+import { NextResponse, NextRequest } from 'next/server'
 import { getSectionSchema, setSectionSchema } from '@/lib/schema-utils-firebase'
 import { isAuthenticated } from '@/lib/auth-utils'
-import { DocumentData } from 'firebase/firestore' // Importación necesaria si usas tipado de Firebase
-
-// NO ES NECESARIO DEFINIR UN TIPO 'Params' externo.
-// Usamos la forma de desestructuración que Next.js espera.
+import { DocumentData } from 'firebase/firestore'
+// Usamos un tipo para claridad, PERO la implementación de Next.js lo pasa como Promise.
+type Params = { project: string; section: string }
 
 // GET: Leer el esquema de la sección (PÚBLICO)
 export async function GET(
   request: Request,
-  context: { params: { project: string; section: string } }
+  context: { params: Params }
 ): Promise<NextResponse<DocumentData | { fields: [] } | { message: string }>> {
+  // ✅ CLAVE: Hacemos AWAIT del objeto 'params' del contexto
   const { project, section } = context.params
 
   try {
-    // La función de Firebase es asíncrona (AWAIT)
     const schemaData = await getSectionSchema(project, section)
 
-    // Devolvemos los datos del esquema o un array vacío si no existe
     return NextResponse.json(schemaData || { fields: [] })
   } catch (error) {
     console.error(`Error en GET del esquema:`, error)
@@ -34,7 +31,7 @@ export async function GET(
 // POST: Actualizar el esquema de la sección (PRIVADO, requiere Auth)
 export async function POST(
   request: Request,
-  context: { params: { project: string; section: string } }
+  context: { params: Params }
 ): Promise<NextResponse<{ fields: any[] } | { message: string }>> {
   // 1. AUTENTICACIÓN
   if (!isAuthenticated(request)) {
@@ -44,11 +41,11 @@ export async function POST(
     )
   }
 
+  // ✅ CLAVE: Hacemos AWAIT del objeto 'params' del contexto
   const { project, section } = context.params
 
   try {
     // 2. OBTENER DATOS
-    // newFields es el array de campos (IField[]) que enviaste desde el frontend.
     const newFields = await request.json()
 
     console.log(
@@ -59,7 +56,6 @@ export async function POST(
     const updatedSchema = await setSectionSchema(project, section, newFields)
 
     // 4. VERIFICACIÓN
-    // Si setSectionSchema devuelve null, algo salió mal al escribir en Firebase (ej: error de red o permisos).
     if (!updatedSchema) {
       throw new Error('Firestore failed to save the schema.')
     }
