@@ -48,6 +48,7 @@ export function ManageSectionClient({
       router.replace('/admin')
     }
   }, [router])
+
   // ----------------------------------------------------
   // ESTADO
   // ----------------------------------------------------
@@ -66,27 +67,54 @@ export function ManageSectionClient({
   }, [])
 
   // ----------------------------------------------------
+  // LÓGICA DE ESQUEMA DINÁMICO
+  // ----------------------------------------------------
+  // 🔧 FIX: Initialize with default array to prevent .map errors
+  const [fieldKeys, setFieldKeys] = useState<IField[]>([
+    { key: 'title', type: 'input' },
+    { key: 'description', type: 'textarea' },
+  ])
+  const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false)
+
+  // 1. EFECTO: Obtener el esquema de la API al cargar el componente
+  useEffect(() => {
+    const fetchSchema = async () => {
+      try {
+        // Llama a la nueva API de esquemas (endpoint público GET)
+        const res = await fetch(`/api/schemas/${project}/${section}`)
+        if (res.ok) {
+          const schema = await res.json()
+          // 🔧 FIX: Validate that schema is an array before setting
+          if (Array.isArray(schema)) {
+            setFieldKeys(schema)
+          }
+        }
+        // If not ok or not array, keep default values
+      } catch (e) {
+        console.error('Error fetching schema:', e)
+        // Keep default values on error
+      }
+    }
+    fetchSchema()
+  }, [project, section])
+
+  // ----------------------------------------------------
   // ✅ EFECTO PARA OBTENER LA DATA PÚBLICA (SOLO DEPENDE DE PROJECT Y SECTION)
   // ----------------------------------------------------
   useEffect(() => {
     async function fetchData() {
       setIsLoading(true)
-      // Mantén el initialError que pudo venir del Server Component si quieres
-      // pero limpia los errores de red/fetch al empezar la carga.
       setError(null)
 
       try {
-        // ✅ USAR RUTA RELATIVA. SIN HEADERS DE AUTENTICACIÓN.
         const response = await fetch(`/api/${project}/${section}`, {
           method: 'GET',
           headers: {
-            // ¡Quitamos el header 'X-Admin-Key' completamente de aquí!
             'Cache-Control': 'no-store',
           },
         })
 
         if (!response.ok) {
-          // Si falla, el error proviene del Route Handler (e.g., Firebase).
           const result = await response.json()
           setError(
             result.message || `Error ${response.status}: Failed to load data.`
@@ -103,45 +131,13 @@ export function ManageSectionClient({
       }
     }
 
-    // Ejecutar el fetch inmediatamente.
     fetchData()
-
-    // El fetch de data pública SÓLO depende de project y section.
   }, [project, section])
 
   // Estados para la gestión de modales y edición
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false)
   const [editingItem, setEditingItem] = useState<IDataItem | null>(null)
   const [deletingId, setDeletingId] = useState<number | string | null>(null)
-
-  // ----------------------------------------------------
-  // LÓGICA DE ESQUEMA DINÁMICO
-  // ----------------------------------------------------
-  const [fieldKeys, setFieldKeys] = useState<IField[]>([])
-  const [isSchemaModalOpen, setIsSchemaModalOpen] = useState(false)
-
-  // 1. EFECTO: Obtener el esquema de la API al cargar el componente
-  useEffect(() => {
-    const fetchSchema = async () => {
-      try {
-        // Llama a la nueva API de esquemas (endpoint público GET)
-        const res = await fetch(`/api/schemas/${project}/${section}`)
-        if (res.ok) {
-          const schema = await res.json()
-          setFieldKeys(schema)
-        } else {
-          // Si no hay esquema, usa el esquema base por defecto
-          setFieldKeys([
-            { key: 'title', type: 'input' },
-            { key: 'description', type: 'textarea' },
-          ])
-        }
-      } catch (e) {
-        console.error('Error fetching schema:', e)
-      }
-    }
-    fetchSchema()
-  }, [project, section]) // Se ejecuta una sola vez al cargar la sección
 
   // 2. FUNCIÓN: Guardar el esquema usando la clave admin
   const handleSaveSchema = async (newSchema: IField[]) => {
@@ -164,8 +160,8 @@ export function ManageSectionClient({
       })
 
       if (response.ok) {
-        setFieldKeys(newSchema) // Actualiza el estado local
-        setIsSchemaModalOpen(false) // Cierra el modal
+        setFieldKeys(newSchema)
+        setIsSchemaModalOpen(false)
         setError(null)
       } else {
         const result = await response.json()
@@ -521,7 +517,7 @@ export function ManageSectionClient({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {sortedData.map((item, index) => (
+            {(sortedData || []).map((item, index) => (
               <tr
                 key={item.id || index}
                 className="hover:bg-indigo-900/10 transition-colors"
