@@ -1,22 +1,26 @@
 // src/app/api/schemas/[project]/[section]/route.ts
 
 import { NextResponse } from 'next/server'
-// ⚠️ CAMBIAR ESTA LÍNEA por las nuevas funciones:
+// Asegúrate de que este archivo usa las funciones de Firebase (getSectionSchema y setSectionSchema)
 import { getSectionSchema, setSectionSchema } from '@/lib/schema-utils-firebase'
 import { isAuthenticated } from '@/lib/auth-utils'
+import { DocumentData } from 'firebase/firestore' // Importación necesaria si usas tipado de Firebase
 
-type Params = { params: { project: string; section: string } } // Corregir el tipo para simplificar el await
+// NO ES NECESARIO DEFINIR UN TIPO 'Params' externo.
+// Usamos la forma de desestructuración que Next.js espera.
 
 // GET: Leer el esquema de la sección (PÚBLICO)
-export async function GET(request: Request, { params }: Params) {
-  const { project, section } = params
+export async function GET(
+  request: Request,
+  context: { params: { project: string; section: string } }
+): Promise<NextResponse<DocumentData | { fields: [] } | { message: string }>> {
+  const { project, section } = context.params
 
   try {
-    // 🔹 AWAIT es necesario porque la función de Firebase es asíncrona
+    // La función de Firebase es asíncrona (AWAIT)
     const schemaData = await getSectionSchema(project, section)
 
-    // Firestore devuelve { fields: [...] }, ajustamos la respuesta si es necesario
-    // Si no existe, devolvemos un objeto vacío o null, según cómo lo maneje tu frontend
+    // Devolvemos los datos del esquema o un array vacío si no existe
     return NextResponse.json(schemaData || { fields: [] })
   } catch (error) {
     console.error(`Error en GET del esquema:`, error)
@@ -28,7 +32,11 @@ export async function GET(request: Request, { params }: Params) {
 }
 
 // POST: Actualizar el esquema de la sección (PRIVADO, requiere Auth)
-export async function POST(request: Request, { params }: Params) {
+export async function POST(
+  request: Request,
+  context: { params: { project: string; section: string } }
+): Promise<NextResponse<{ fields: any[] } | { message: string }>> {
+  // 1. AUTENTICACIÓN
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -36,34 +44,37 @@ export async function POST(request: Request, { params }: Params) {
     )
   }
 
-  const { project, section } = params
+  const { project, section } = context.params
 
   try {
-    // newSchema es el array de campos (IField[]) que enviaste desde el frontend.
+    // 2. OBTENER DATOS
+    // newFields es el array de campos (IField[]) que enviaste desde el frontend.
     const newFields = await request.json()
 
     console.log(
       '[SCHEMA-UPDATE] Intentando actualizar el esquema en Firebase...'
     )
 
-    // 🔹 AWAIT es esencial. Llama a la nueva función de Firebase.
+    // 3. LLAMADA ASÍNCRONA A FIREBASE
     const updatedSchema = await setSectionSchema(project, section, newFields)
 
-    // Si setSectionSchema devuelve null, algo salió mal en Firebase
+    // 4. VERIFICACIÓN
+    // Si setSectionSchema devuelve null, algo salió mal al escribir en Firebase (ej: error de red o permisos).
     if (!updatedSchema) {
       throw new Error('Firestore failed to save the schema.')
     }
 
     console.log('[SCHEMA-UPDATE] Esquema actualizado con éxito.')
 
-    return NextResponse.json(updatedSchema) // Devolverá { fields: [...] }
+    // 5. RESPUESTA EXITOSA
+    return NextResponse.json(updatedSchema)
   } catch (error) {
+    // 6. MANEJO DE ERRORES
     console.error(
       '[SCHEMA-UPDATE] FALLO FATAL AL ESCRIBIR EN FIRESTORE:',
       error
     )
 
-    // Devolvemos el 500 para notificar al cliente del fallo
     return NextResponse.json(
       { message: 'Error updating schema (Firebase write failure)' },
       { status: 500 }
