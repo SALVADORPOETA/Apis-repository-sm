@@ -2,35 +2,33 @@
 
 import { NextResponse } from 'next/server'
 // ⚠️ CAMBIAR ESTA LÍNEA por las nuevas funciones:
-import {
-  getSectionSchema,
-  updateSectionSchema,
-} from '@/lib/schema-utils-firebase'
+import { getSectionSchema, setSectionSchema } from '@/lib/schema-utils-firebase'
 import { isAuthenticated } from '@/lib/auth-utils'
 
-// // src/app/api/schemas/[project]/[section]/route.ts
-// import { NextResponse } from 'next/server'
-// import { getSchema, updateSchema } from '@/lib/schema-utils-firebase'
-// import { isAuthenticated } from '@/lib/auth-utils'
-
-type Params = Promise<{ project: string; section: string }>
+type Params = { params: { project: string; section: string } } // Corregir el tipo para simplificar el await
 
 // GET: Leer el esquema de la sección (PÚBLICO)
-export async function GET(request: Request, context: { params: Params }) {
-  // ✅ CORRECCIÓN: Await params antes de desestructurar
-  const params = await context.params
+export async function GET(request: Request, { params }: Params) {
   const { project, section } = params
 
   try {
-    const schema = getSectionSchema(project, section)
-    return NextResponse.json(schema || [])
+    // 🔹 AWAIT es necesario porque la función de Firebase es asíncrona
+    const schemaData = await getSectionSchema(project, section)
+
+    // Firestore devuelve { fields: [...] }, ajustamos la respuesta si es necesario
+    // Si no existe, devolvemos un objeto vacío o null, según cómo lo maneje tu frontend
+    return NextResponse.json(schemaData || { fields: [] })
   } catch (error) {
-    return NextResponse.json({ message: 'Server error' }, { status: 500 })
+    console.error(`Error en GET del esquema:`, error)
+    return NextResponse.json(
+      { message: 'Server error fetching schema' },
+      { status: 500 }
+    )
   }
 }
 
-// POST/PUT/PATCH: Actualizar el esquema de la sección (PRIVADO, requiere Auth)
-export async function POST(request: Request, context: { params: Params }) {
+// POST: Actualizar el esquema de la sección (PRIVADO, requiere Auth)
+export async function POST(request: Request, { params }: Params) {
   if (!isAuthenticated(request)) {
     return NextResponse.json(
       { message: 'Unauthorized: Invalid Admin Key' },
@@ -38,42 +36,37 @@ export async function POST(request: Request, context: { params: Params }) {
     )
   }
 
-  // ✅ CORRECCIÓN: Await params antes de desestructurar
-  const params = await context.params
   const { project, section } = params
 
   try {
-    const newSchema = await request.json()
+    // newSchema es el array de campos (IField[]) que enviaste desde el frontend.
+    const newFields = await request.json()
 
-    // 🚨 AQUÍ ES DONDE NECESITAS EL PRÓXIMO LOG 🚨
     console.log(
       '[SCHEMA-UPDATE] Intentando actualizar el esquema en Firebase...'
     )
 
-    const updatedSchema = updateSectionSchema(project, section, newSchema) // <--- Esta línea está fallando
+    // 🔹 AWAIT es esencial. Llama a la nueva función de Firebase.
+    const updatedSchema = await setSectionSchema(project, section, newFields)
 
-    // El log se detiene si hay un error en updateSchema
+    // Si setSectionSchema devuelve null, algo salió mal en Firebase
+    if (!updatedSchema) {
+      throw new Error('Firestore failed to save the schema.')
+    }
+
     console.log('[SCHEMA-UPDATE] Esquema actualizado con éxito.')
 
-    return NextResponse.json(updatedSchema) // <-- Se ejecutó, por eso Vercel te muestra 200
+    return NextResponse.json(updatedSchema) // Devolverá { fields: [...] }
   } catch (error) {
-    // ❌ ¡El error DEBE estar siendo capturado aquí! ❌
-    console.error('[SCHEMA-UPDATE] FALLO FATAL DENTRO DE UPDATE-SCHEMA:', error)
+    console.error(
+      '[SCHEMA-UPDATE] FALLO FATAL AL ESCRIBIR EN FIRESTORE:',
+      error
+    )
 
+    // Devolvemos el 500 para notificar al cliente del fallo
     return NextResponse.json(
-      { message: 'Error updating schema' },
+      { message: 'Error updating schema (Firebase write failure)' },
       { status: 500 }
     )
   }
-
-  // try {
-  //   const newSchema = await request.json()
-  //   const updatedSchema = updateSchema(project, section, newSchema)
-  //   return NextResponse.json(updatedSchema)
-  // } catch (error) {
-  //   return NextResponse.json(
-  //     { message: 'Error updating schema' },
-  //     { status: 500 }
-  //   )
-  // }
 }
