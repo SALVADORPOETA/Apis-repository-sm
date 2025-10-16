@@ -1,19 +1,23 @@
-// src/lib/schema-utils-firebase.ts
 import { db } from '@/lib/firebase'
 import { doc, getDoc, setDoc, updateDoc } from 'firebase/firestore'
+
+// Documento fijo que contendrá los campos del esquema dentro de la subcolección 'schema'
+const SCHEMA_DOC_ID = 'config'
 
 /**
  * 🔹 Obtener el schema completo de una sección
  */
 export async function getSectionSchema(project: string, section: string) {
   try {
+    // ✅ CORRECCIÓN: Agregamos SCHEMA_DOC_ID para que la ruta tenga 6 segmentos.
     const schemaDocRef = doc(
       db,
-      'projects',
-      project,
-      'sections',
-      section,
-      'schema'
+      'projects', // C
+      project, // D
+      'sections', // C
+      section, // D
+      'schema', // C
+      SCHEMA_DOC_ID // D <-- ¡Ahora son 6 segmentos!
     )
     const snap = await getDoc(schemaDocRef)
     if (!snap.exists()) return null
@@ -33,13 +37,15 @@ export async function setSectionSchema(
   fields: any[]
 ) {
   try {
+    // ✅ CORRECCIÓN: Agregamos SCHEMA_DOC_ID para que la ruta tenga 6 segmentos.
     const schemaDocRef = doc(
       db,
-      'projects',
-      project,
-      'sections',
-      section,
-      'schema'
+      'projects', // C
+      project, // D
+      'sections', // C
+      section, // D
+      'schema', // C
+      SCHEMA_DOC_ID // D <-- ¡Ahora son 6 segmentos!
     )
     await setDoc(schemaDocRef, { fields })
     return { fields }
@@ -58,13 +64,15 @@ export async function updateSectionSchema(
   updates: Record<string, any>
 ) {
   try {
+    // ✅ CORRECCIÓN: Agregamos SCHEMA_DOC_ID para que la ruta tenga 6 segmentos.
     const schemaDocRef = doc(
       db,
-      'projects',
-      project,
-      'sections',
-      section,
-      'schema'
+      'projects', // C
+      project, // D
+      'sections', // C
+      section, // D
+      'schema', // C
+      SCHEMA_DOC_ID // D <-- ¡Ahora son 6 segmentos!
     )
     await updateDoc(schemaDocRef, updates)
     const snap = await getDoc(schemaDocRef)
