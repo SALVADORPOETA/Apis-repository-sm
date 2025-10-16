@@ -506,21 +506,22 @@ export function ManageSectionClient({
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400 cursor-pointer">
                 ID
               </th>
-              {(fieldKeys || []).map((field) => (
-                <th
-                  key={field.key}
-                  className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400"
-                >
-                  {field.key}
-                </th>
-              ))}
+              {Array.isArray(fieldKeys) &&
+                fieldKeys.map((field) => (
+                  <th
+                    key={field.key}
+                    className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400"
+                  >
+                    {field.key}
+                  </th>
+                ))}
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400">
                 Actions
               </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {(sortedData || []).map((item, index) => (
+            {sortedData.map((item, index) => (
               <tr
                 key={item.id || index}
                 className="hover:bg-indigo-900/10 transition-colors"
@@ -528,14 +529,15 @@ export function ManageSectionClient({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {item.id}
                 </td>
-                {(fieldKeys || []).map((field) => (
-                  <td
-                    key={`${item.id}-${field.key}`}
-                    className="px-6 py-4 text-sm text-gray-300 truncate max-w-xs"
-                  >
-                    {String(item[field.key]).substring(0, 50)}...
-                  </td>
-                ))}
+                {Array.isArray(fieldKeys) &&
+                  fieldKeys.map((field) => (
+                    <td
+                      key={`${item.id}-${field.key}`}
+                      className="px-6 py-4 text-sm text-gray-300 truncate max-w-xs"
+                    >
+                      {String(item[field.key]).substring(0, 50)}...
+                    </td>
+                  ))}
                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium flex space-x-2">
                   <button
                     onClick={() => setEditingItem(item)}
