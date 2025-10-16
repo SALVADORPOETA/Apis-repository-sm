@@ -1,7 +1,17 @@
 // src/app/api/schemas/[project]/[section]/route.ts
+
 import { NextResponse } from 'next/server'
-import { getSchema, updateSchema } from '@/lib/schema-utils'
+// ⚠️ CAMBIAR ESTA LÍNEA por las nuevas funciones:
+import {
+  getSectionSchema,
+  updateSectionSchema,
+} from '@/lib/schema-utils-firebase'
 import { isAuthenticated } from '@/lib/auth-utils'
+
+// // src/app/api/schemas/[project]/[section]/route.ts
+// import { NextResponse } from 'next/server'
+// import { getSchema, updateSchema } from '@/lib/schema-utils-firebase'
+// import { isAuthenticated } from '@/lib/auth-utils'
 
 type Params = Promise<{ project: string; section: string }>
 
@@ -12,7 +22,7 @@ export async function GET(request: Request, context: { params: Params }) {
   const { project, section } = params
 
   try {
-    const schema = getSchema(project, section)
+    const schema = getSectionSchema(project, section)
     return NextResponse.json(schema || [])
   } catch (error) {
     return NextResponse.json({ message: 'Server error' }, { status: 500 })
@@ -40,7 +50,7 @@ export async function POST(request: Request, context: { params: Params }) {
       '[SCHEMA-UPDATE] Intentando actualizar el esquema en Firebase...'
     )
 
-    const updatedSchema = updateSchema(project, section, newSchema) // <--- Esta línea está fallando
+    const updatedSchema = updateSectionSchema(project, section, newSchema) // <--- Esta línea está fallando
 
     // El log se detiene si hay un error en updateSchema
     console.log('[SCHEMA-UPDATE] Esquema actualizado con éxito.')
