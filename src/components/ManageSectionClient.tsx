@@ -506,7 +506,7 @@ export function ManageSectionClient({
               <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400 cursor-pointer">
                 ID
               </th>
-              {fieldKeys.map((field) => (
+              {(fieldKeys || []).map((field) => (
                 <th
                   key={field.key}
                   className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-400"
@@ -520,7 +520,7 @@ export function ManageSectionClient({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {sortedData.map((item, index) => (
+            {(sortedData || []).map((item, index) => (
               <tr
                 key={item.id || index}
                 className="hover:bg-indigo-900/10 transition-colors"
@@ -528,7 +528,7 @@ export function ManageSectionClient({
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-300">
                   {item.id}
                 </td>
-                {fieldKeys.map((field) => (
+                {(fieldKeys || []).map((field) => (
                   <td
                     key={`${item.id}-${field.key}`}
                     className="px-6 py-4 text-sm text-gray-300 truncate max-w-xs"
