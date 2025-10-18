@@ -26,19 +26,29 @@ export async function GET(request: Request, context: { params: Params }) {
   const id = url.searchParams.get('id')
 
   try {
+    let response
+
     if (id) {
       const item = await getDataItem(project, section, id)
       if (!item) {
-        return NextResponse.json(
+        response = NextResponse.json(
           { message: `Item with id ${id} not found` },
           { status: 404 }
         )
+      } else {
+        response = NextResponse.json(item)
       }
-      return NextResponse.json(item)
     } else {
       const data = await getSectionData(project, section)
-      return NextResponse.json(data)
+      response = NextResponse.json(data)
     }
+
+    // 👉 Agregamos cabeceras CORS
+    response.headers.set('Access-Control-Allow-Origin', '*')
+    response.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+    response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
+
+    return response
   } catch (error) {
     console.error(`API Error on GET ${project}/${section}:`, error)
     return NextResponse.json(
@@ -47,6 +57,46 @@ export async function GET(request: Request, context: { params: Params }) {
     )
   }
 }
+
+// Necesario para preflight (opcional pero recomendable)
+export async function OPTIONS() {
+  const res = new NextResponse(null, { status: 204 })
+  res.headers.set('Access-Control-Allow-Origin', '*')
+  res.headers.set('Access-Control-Allow-Methods', 'GET, OPTIONS')
+  res.headers.set('Access-Control-Allow-Headers', 'Content-Type')
+  return res
+}
+
+// // GET
+// export async function GET(request: Request, context: { params: Params }) {
+//   const params = await context.params
+//   const { project, section } = params
+
+//   const url = new URL(request.url)
+//   const id = url.searchParams.get('id')
+
+//   try {
+//     if (id) {
+//       const item = await getDataItem(project, section, id)
+//       if (!item) {
+//         return NextResponse.json(
+//           { message: `Item with id ${id} not found` },
+//           { status: 404 }
+//         )
+//       }
+//       return NextResponse.json(item)
+//     } else {
+//       const data = await getSectionData(project, section)
+//       return NextResponse.json(data)
+//     }
+//   } catch (error) {
+//     console.error(`API Error on GET ${project}/${section}:`, error)
+//     return NextResponse.json(
+//       { message: 'Server error processing request' },
+//       { status: 500 }
+//     )
+//   }
+// }
 
 // POST
 export async function POST(request: Request, context: { params: Params }) {
