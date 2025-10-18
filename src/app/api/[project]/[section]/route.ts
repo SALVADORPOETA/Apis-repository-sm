@@ -67,37 +67,6 @@ export async function OPTIONS() {
   return res
 }
 
-// // GET
-// export async function GET(request: Request, context: { params: Params }) {
-//   const params = await context.params
-//   const { project, section } = params
-
-//   const url = new URL(request.url)
-//   const id = url.searchParams.get('id')
-
-//   try {
-//     if (id) {
-//       const item = await getDataItem(project, section, id)
-//       if (!item) {
-//         return NextResponse.json(
-//           { message: `Item with id ${id} not found` },
-//           { status: 404 }
-//         )
-//       }
-//       return NextResponse.json(item)
-//     } else {
-//       const data = await getSectionData(project, section)
-//       return NextResponse.json(data)
-//     }
-//   } catch (error) {
-//     console.error(`API Error on GET ${project}/${section}:`, error)
-//     return NextResponse.json(
-//       { message: 'Server error processing request' },
-//       { status: 500 }
-//     )
-//   }
-// }
-
 // POST
 export async function POST(request: Request, context: { params: Params }) {
   if (!isAuthenticated(request)) {
@@ -212,3 +181,34 @@ export async function DELETE(request: Request, context: { params: Params }) {
     )
   }
 }
+
+// // GET
+// export async function GET(request: Request, context: { params: Params }) {
+//   const params = await context.params
+//   const { project, section } = params
+
+//   const url = new URL(request.url)
+//   const id = url.searchParams.get('id')
+
+//   try {
+//     if (id) {
+//       const item = await getDataItem(project, section, id)
+//       if (!item) {
+//         return NextResponse.json(
+//           { message: `Item with id ${id} not found` },
+//           { status: 404 }
+//         )
+//       }
+//       return NextResponse.json(item)
+//     } else {
+//       const data = await getSectionData(project, section)
+//       return NextResponse.json(data)
+//     }
+//   } catch (error) {
+//     console.error(`API Error on GET ${project}/${section}:`, error)
+//     return NextResponse.json(
+//       { message: 'Server error processing request' },
+//       { status: 500 }
+//     )
+//   }
+// }
