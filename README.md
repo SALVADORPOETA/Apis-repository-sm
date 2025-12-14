@@ -140,14 +140,6 @@ Unauthorized access is automatically redirected to the base admin route.
 - Structured documentation systems
 - Headless CMS for static or dynamic frontends
 
-## Future Improvements
-
-- Schema validation (Zod / Yup)
-- Role-based access control
-- Firestore security rules
-- Optimistic locking or versioning
-- UI dashboard (optional)
-
 ## License
 
 This project is open-source and intended for educational and portfolio purposes.
