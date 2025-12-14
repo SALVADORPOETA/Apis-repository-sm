@@ -1,4 +1,4 @@
-# Admin Panel CMS (Next.js + Firebase)
+# APIs Repository (Next.js + Firebase)
 
 A lightweight, headless content management system built with Next.js and Firebase Firestore, designed to manage structured content by projects, sections, and items.
 
