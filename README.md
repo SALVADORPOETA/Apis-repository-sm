@@ -1,4 +1,4 @@
-# APIs Repository (Next.js + Firebase)
+# APIs Repository
 
 A lightweight, headless content management system built with Next.js and Firebase Firestore, designed to manage structured content by projects, sections, and items.
 
