@@ -4,6 +4,8 @@ A lightweight, headless content management system built with Next.js and Firebas
 
 The system supports both local JSON persistence and cloud persistence, making it suitable for development, migration, and production environments.
 
+<img width="779" height="551" alt="apisrepo" src="https://github.com/user-attachments/assets/ee4ed350-940e-47dc-b109-e1b3700f974b" />
+
 ## Features
 
 - Headless CMS architecture
