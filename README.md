@@ -1,6 +1,6 @@
 # APIs Repository
 
-The APIs Repository project is a lightweight headless CMS built with Next.js and Firebase Firestore. It is specifically designed to manage structured content organized by projects, sections, and items. By leveraging Firestore, the architecture is centered on scalability and production readiness. Its design prioritizes simplicity and clear domain modeling, making it an excellent backend solution for educational platforms, structured documentation, or internal administrative systems that require an agile content hub.
+This is an ORIGINAL project built with Next.js and Firebase Firestore. It is specifically designed to manage structured content organized by projects, sections, and items. By leveraging Firestore, the architecture is centered on scalability and production readiness. Its design prioritizes simplicity and clear domain modeling, making it an excellent backend solution for educational platforms, structured documentation, or internal administrative systems that require an agile content hub.
 
 The data structure in Firestore directly mirrors the CMS domain, organizing content with a main projects collection and nested subcollections for sections and items, thus enabling efficient CRUD operations. Admin access is secured using a Next.js Middleware that verifies a secret key (X-Admin-Key) via request header, protecting all administrative routes (/admin/*). This straightforward, key-based security ensures appropriate access control for controlled environments, facilitating its use in internal administration tools.
 
