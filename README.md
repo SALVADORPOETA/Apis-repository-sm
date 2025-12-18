@@ -235,6 +235,15 @@ Unauthorized access is automatically redirected to the base admin route.
 
 ---
 
+## 👨🏽‍💻 Author
+
+**Salvador Martínez** Full-Stack Developer
+
+* [GitHub](https://github.com/SALVADORPOETA)
+* [LinkedIn](https://www.linkedin.com/in/salvador-martinez-sm/)
+
+---
+
 ## 📄 License
 
 This project is open-source and intended for educational and portfolio purposes.
