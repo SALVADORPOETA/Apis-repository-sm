@@ -8,7 +8,7 @@ The data structure in Firestore directly mirrors the CMS domain, organizing cont
 
 ---
 
-## Live Projects Using This API
+## 🌐 Live Projects Using This API
 
 This headless CMS currently powers the following **original** applications:
 
@@ -24,22 +24,22 @@ This headless CMS currently powers the following **original** applications:
     <tr>
       <td><strong>Mayapan</strong></td>
       <td>Interactive Mayan civilization knowledge platform</td>
-      <td><a href="https://mayapan-sm.vercel.app/" target="_blank">View →</a></td>
+      <td><a href="https://mayapan-sm.vercel.app/">View →</a></td>
     </tr>
     <tr>
       <td><strong>Bharat</strong></td>
       <td>Cultural and historical exploration of India</td>
-      <td><a href="https://bharat-sm.vercel.app/" target="_blank">View →</a></td>
+      <td><a href="https://bharat-sm.vercel.app/">View →</a></td>
     </tr>
     <tr>
       <td><strong>Kemet</strong></td>
       <td>Ancient Egyptian civilization educational resource</td>
-      <td><a href="https://kemet-sm.vercel.app/" target="_blank">View →</a></td>
+      <td><a href="https://kemet-sm.vercel.app/">View →</a></td>
     </tr>
     <tr>
       <td><strong>Empire</strong></td>
       <td>Historical empire documentation system</td>
-      <td><a href="https://empire-sm.vercel.app/" target="_blank">View →</a></td>
+      <td><a href="https://empire-sm.vercel.app/">View →</a></td>
     </tr>
   </tbody>
 </table>
@@ -48,7 +48,7 @@ This headless CMS currently powers the following **original** applications:
 
 ---
 
-## Features
+## 🚀 Features
 
 - Headless CMS architecture
 - Project-based content organization
@@ -58,8 +58,9 @@ This headless CMS currently powers the following **original** applications:
 - URL-safe project and section keys
 - Designed for scalability and migration
 
-## Project Structure
+---
 
+## 📂 Project Structure
 ```
 src/
 ├── lib/
@@ -80,10 +81,11 @@ data/
 │   └── ...
 ```
 
-## Data Model
+---
+
+## 📊 Data Model
 
 ### Project
-
 ```typescript
 interface IProject {
   key: string // URL-safe unique identifier
@@ -93,7 +95,6 @@ interface IProject {
 ```
 
 ### Firestore Structure
-
 ```
 projects (collection)
  └── {projectKey} (document)
@@ -106,7 +107,9 @@ projects (collection)
                      └── {itemId}
 ```
 
-## Installation & Local Development
+---
+
+## 🔧 Installation & Local Development
 
 Follow these steps to set up the project in your local environment:
 
@@ -158,23 +161,25 @@ Add the following header to your requests:
 X-Admin-Key: your_admin_key_here
 ```
 
-## Authentication
+---
+
+## 🔐 Authentication
 
 Admin access is protected using a custom request header:
-
 ```
 X-Admin-Key: <your-admin-key>
 ```
 
 The key is validated against an environment variable:
-
 ```
 ADMIN_KEY=your_secure_admin_key
 ```
 
 This approach is intentionally simple and server-only, suitable for internal admin panels, scripts, and controlled environments.
 
-## Persistence Strategies
+---
+
+## 💾 Persistence Strategies
 
 ### Local JSON (Filesystem)
 
@@ -192,19 +197,25 @@ This approach is intentionally simple and server-only, suitable for internal adm
 
 Both strategies share the same domain model, enabling easy migration.
 
-## CRUD Capabilities
+---
+
+## ✅ CRUD Capabilities
 
 - **Projects**: Create, read, update, delete
 - **Sections**: Defined per project
 - **Items**: Full CRUD within sections, Firestore document-based IDs
 
-## Middleware Protection
+---
+
+## 🛡️ Middleware Protection
 
 All `/admin/*` routes are protected via Next.js middleware.
 
 Unauthorized access is automatically redirected to the base admin route.
 
-## Design Principles
+---
+
+## 🎯 Design Principles
 
 - Explicit domain modeling
 - Separation of concerns
@@ -212,7 +223,9 @@ Unauthorized access is automatically redirected to the base admin route.
 - Migration-friendly architecture
 - Predictable and readable codebase
 
-## Use Cases
+---
+
+## 💡 Use Cases
 
 - Cultural or historical content management
 - Educational platforms
@@ -220,7 +233,9 @@ Unauthorized access is automatically redirected to the base admin route.
 - Structured documentation systems
 - Headless CMS for static or dynamic frontends
 
-## License
+---
+
+## 📄 License
 
 This project is open-source and intended for educational and portfolio purposes.
 
