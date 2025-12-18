@@ -12,12 +12,37 @@ The data structure in Firestore directly mirrors the CMS domain, organizing cont
 
 This headless CMS currently powers the following **original** applications:
 
-| Project | Description | Live Demo |
-|---------|-------------|-----------|
-| **Mayapan** | Interactive Mayan civilization knowledge platform | [View →](https://mayapan-sm.vercel.app/) |
-| **Bharat** | Cultural and historical exploration of India | [View →](https://bharat-sm.vercel.app/) |
-| **Kemet** | Ancient Egyptian civilization educational resource | [View →](https://kemet-sm.vercel.app/) |
-| **Empire** | Roman empire documentation system | [View →](https://empire-sm.vercel.app/) |
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Description</th>
+      <th>Live Demo</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Mayapan</strong></td>
+      <td>Interactive Mayan civilization knowledge platform</td>
+      <td><a href="https://mayapan-sm.vercel.app/" target="_blank">View →</a></td>
+    </tr>
+    <tr>
+      <td><strong>Bharat</strong></td>
+      <td>Cultural and historical exploration of India</td>
+      <td><a href="https://bharat-sm.vercel.app/" target="_blank">View →</a></td>
+    </tr>
+    <tr>
+      <td><strong>Kemet</strong></td>
+      <td>Ancient Egyptian civilization educational resource</td>
+      <td><a href="https://kemet-sm.vercel.app/" target="_blank">View →</a></td>
+    </tr>
+    <tr>
+      <td><strong>Empire</strong></td>
+      <td>Historical empire documentation system</td>
+      <td><a href="https://empire-sm.vercel.app/" target="_blank">View →</a></td>
+    </tr>
+  </tbody>
+</table>
 
 > Each project dynamically fetches structured content (sections, items, media) from this centralized API, demonstrating real-world scalability and multi-tenant architecture.
 
