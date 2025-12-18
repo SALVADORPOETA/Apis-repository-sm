@@ -12,7 +12,6 @@ The data structure in Firestore directly mirrors the CMS domain, organizing cont
 - Project-based content organization
 - Section and item-level CRUD operations
 - Firebase Firestore integration
-- Local filesystem (JSON) persistence for development
 - Admin authentication via secure request headers
 - URL-safe project and section keys
 - Designed for scalability and migration
