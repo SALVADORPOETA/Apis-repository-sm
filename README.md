@@ -106,6 +106,58 @@ projects (collection)
                      └── {itemId}
 ```
 
+## Installation & Local Development
+
+Follow these steps to set up the project in your local environment:
+
+### 1. Clone the repository
+```bash
+git clone https://github.com/SALVADORPOETA/Apis-repository-sm
+cd apis-repository
+```
+
+### 2. Install dependencies
+```bash
+npm install
+```
+
+### 3. Configure Environment Variables
+
+Create a `.env.local` file in the root directory with your Firebase credentials and admin key:
+```env
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_auth_domain
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_project_id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+NEXT_PUBLIC_FIREBASE_APP_ID=your_app_id
+
+ADMIN_KEY=your_secure_admin_key
+```
+
+### 4. Run the development server
+```bash
+npm run dev
+```
+
+The server will start at `http://localhost:3000`.
+
+### 5. Verify the Setup
+
+You can verify the API is working by accessing the projects endpoint. To test administrative actions (POST/PUT/DELETE) or protected routes, include the security header in your requests:
+
+**Using cURL:**
+```bash
+curl -H "X-Admin-Key: your_admin_key_here" http://localhost:3000/api/admin/projects
+```
+
+**Using Postman/Insomnia:**
+
+Add the following header to your requests:
+```
+X-Admin-Key: your_admin_key_here
+```
+
 ## Authentication
 
 Admin access is protected using a custom request header:
@@ -121,21 +173,6 @@ ADMIN_KEY=your_secure_admin_key
 ```
 
 This approach is intentionally simple and server-only, suitable for internal admin panels, scripts, and controlled environments.
-
-## Environment Variables
-
-Create a `.env.local` file with the following values:
-
-```env
-NEXT_PUBLIC_FIREBASE_API_KEY=...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=...
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
-NEXT_PUBLIC_FIREBASE_APP_ID=...
-
-ADMIN_KEY=your_admin_key
-```
 
 ## Persistence Strategies
 
