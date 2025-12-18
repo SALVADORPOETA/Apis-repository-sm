@@ -112,8 +112,8 @@ Follow these steps to set up the project in your local environment:
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/SALVADORPOETA/Apis-repository-sm
-cd apis-repository
+git clone https://github.com/SALVADORPOETA/Apis-repository-sm.git
+cd Apis-repository-sm
 ```
 
 ### 2. Install dependencies
