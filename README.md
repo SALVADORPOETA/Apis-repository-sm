@@ -246,7 +246,9 @@ Unauthorized access is automatically redirected to the base admin route.
 
 ## ⚖️ License
 
-This is a **completely original** project by Salvador Martinez. No commercial use intended.
+© 2025 Salvador Martinez. All rights reserved.
+
+This is a completely original project. For any use, reproduction, or distribution inquiries, please contact the author.
 
 ---
 
