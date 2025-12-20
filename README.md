@@ -244,8 +244,10 @@ Unauthorized access is automatically redirected to the base admin route.
 
 ---
 
-## 📄 License
+## ⚖️ License
 
-This project is open-source and intended for educational and portfolio purposes.
+This is a personal portfolio project by Salvador Martinez based on a JavaScript Mastery tutorial. No commercial use intended.
 
-You are free to adapt it for your own use cases.
+---
+
+**Made by Salvador Martinez**
