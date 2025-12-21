@@ -120,7 +120,7 @@ export const DeleteProjectModal: React.FC<DeleteProjectModalProps> = ({
               <button
                 type="button"
                 onClick={handleVerifyKey}
-                className={`px-3 py-2 ${darkTheme.colors.buttonDanger} ${darkTheme.rounded} transition-colors`}
+                className={`w-full md:w-auto px-3 py-2 ${darkTheme.colors.buttonDanger} ${darkTheme.rounded} transition-colors`}
                 disabled={verifying || !adminKey.trim()}
               >
                 {verifying ? 'Verifying...' : 'Verify'}
