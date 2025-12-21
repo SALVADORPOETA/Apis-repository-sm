@@ -142,7 +142,7 @@ export const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           >
             Admin Key
           </label>
-          <div className={`flex ${darkTheme.spacing.gap}`}>
+          <div className={`flex flex-col md:flex-row ${darkTheme.spacing.gap}`}>
             <input
               type="password"
               value={adminKey}
