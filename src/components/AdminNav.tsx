@@ -28,7 +28,7 @@ export function AdminNav({
     }
   }
 
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useState(true)
 
   return (
     <div>
@@ -74,7 +74,7 @@ export function AdminNav({
     fixed top-0 left-0 h-screen w-64 bg-gray-800 p-4 shadow-lg overflow-y-auto
     transform transition-transform duration-300 ease-in-out
     ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-    md:translate-x-0
+    md:translate-x-0 z-40
   `}
       >
         <a

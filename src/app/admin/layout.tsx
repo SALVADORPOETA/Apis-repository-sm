@@ -31,13 +31,17 @@ export default function AdminLayout({
   }, [])
 
   return (
-    <div className="min-h-screen flex bg-gray-900">
-      <aside className="w-64">
-        {/* Pasamos los proyectos al AdminNav */}
-        <AdminNav projects={projects} isLoading={isLoading} />
-      </aside>
+    <div className="min-h-screen bg-gray-900 relative">
+      <AdminNav projects={projects} isLoading={isLoading} />
 
-      <main className="flex-1 p-8 overflow-y-auto">{children}</main>
+      <main
+        className="
+        p-8 overflow-y-auto
+        md:ml-64
+      "
+      >
+        {children}
+      </main>
     </div>
   )
 }
