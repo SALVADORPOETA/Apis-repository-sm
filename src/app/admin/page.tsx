@@ -80,7 +80,7 @@ export default function AdminHomePage() {
   }
 
   return (
-    <div className="max-w-4xl mx-auto relative bg-gray-900 min-h-screen text-gray-100 p-6">
+    <div className="relative bg-gray-900 min-h-screen text-gray-100 p-4 sm:p-6 w-full md:max-w-4xl md:mx-auto">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-4xl font-extrabold text-white">
           Centralized Administration Panel

@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 export default function Home() {
   return (
-    <main className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-gray-900 to-black text-white text-center px-6">
+    <main className="flex flex-col items-center justify-center min-h-screen bg-linear-to-b from-gray-900 to-black text-white text-center px-6">
       <h1 className="text-4xl sm:text-5xl font-extrabold mb-6">
         This is my Personal Data Repository for APIs.
       </h1>
