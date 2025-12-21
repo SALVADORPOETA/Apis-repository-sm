@@ -81,13 +81,13 @@ export default function AdminHomePage() {
 
   return (
     <div className="max-w-4xl mx-auto relative bg-gray-900 min-h-screen text-gray-100 p-6">
-      <div className="flex items-center justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h1 className="text-4xl font-extrabold text-white">
           Centralized Administration Panel
         </h1>
         <button
           onClick={() => setShowCreateModal(true)}
-          className="px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 shadow cursor-pointer"
+          className="w-full md:w-auto px-4 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-lg hover:bg-indigo-500 shadow cursor-pointer"
         >
           + Create Project
         </button>
