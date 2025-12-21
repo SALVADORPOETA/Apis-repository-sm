@@ -437,10 +437,10 @@ export function ManageSectionClient({
         <h2 className={`text-2xl font-bold ${darkTheme.colors.text}`}>
           Section Items ({data.length})
         </h2>
-        <div className="flex space-x-3">
+        <div className="flex flex-col md:flex-row space-x-3 space-y-3 w-full">
           <button
             onClick={() => setIsSchemaModalOpen(true)}
-            className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonExtra} font-semibold ${darkTheme.rounded} shadow-md transition duration-150 disabled:opacity-50 cursor-pointer`}
+            className={`flex items-center w-full px-4 py-2 ${darkTheme.colors.buttonExtra} font-semibold ${darkTheme.rounded} shadow-md transition duration-150 disabled:opacity-50 cursor-pointer`}
             disabled={isLoading}
           >
             ⚙️ Configure Fields ({fieldKeys.length})
@@ -448,14 +448,14 @@ export function ManageSectionClient({
 
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonPrimary} font-semibold ${darkTheme.rounded} shadow-md hover:bg-indigo-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
+            className={`flex items-center w-full px-4 py-2 ${darkTheme.colors.buttonPrimary} font-semibold ${darkTheme.rounded} shadow-md hover:bg-indigo-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
             disabled={isLoading}
           >
             {isLoading ? 'Loading...' : '+ Add New Item'}
           </button>
 
           <button
-            className={`flex items-center px-4 py-2 ${darkTheme.colors.buttonInfo} font-semibold ${darkTheme.rounded} shadow-md hover:bg-blue-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
+            className={`flex items-center w-full px-4 py-2 ${darkTheme.colors.buttonInfo} font-semibold ${darkTheme.rounded} shadow-md hover:bg-blue-700 transition duration-150 disabled:opacity-50 cursor-pointer`}
             onClick={() => setSortIdNumAsc(!sortIdNumAsc)}
           >
             Sort by IDNUM {sortIdNumAsc ? '↑' : '↓'}
