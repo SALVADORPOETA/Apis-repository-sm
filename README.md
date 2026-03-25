@@ -48,8 +48,6 @@ This headless CMS currently powers the following **original** applications:
 
 <img width="761" height="627" alt="apisrepo2" src="https://github.com/user-attachments/assets/f75cd575-fb5e-4760-bcfa-9a5b1ff5d77a" />
 
-<img width="763" height="627" alt="apisrepo3" src="https://github.com/user-attachments/assets/6024da5a-a1b9-4957-ad13-41eac4095786" />
-
 ---
 
 ## 🚀 Features
@@ -210,6 +208,8 @@ This approach is intentionally simple and server-only, suitable for internal adm
 - Subcollections for sections and items
 
 Both strategies share the same domain model, enabling easy migration.
+
+<img width="763" height="627" alt="apisrepo3" src="https://github.com/user-attachments/assets/6024da5a-a1b9-4957-ad13-41eac4095786" />
 
 ---
 
