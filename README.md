@@ -6,10 +6,6 @@ The data structure in Firestore directly mirrors the CMS domain, organizing cont
 
 <img width="761" height="625" alt="apisrepo1" src="https://github.com/user-attachments/assets/fe6a3a27-c55c-4b12-a789-cca551850132" />
 
-<img width="761" height="627" alt="apisrepo2" src="https://github.com/user-attachments/assets/f75cd575-fb5e-4760-bcfa-9a5b1ff5d77a" />
-
-<img width="763" height="627" alt="apisrepo3" src="https://github.com/user-attachments/assets/6024da5a-a1b9-4957-ad13-41eac4095786" />
-
 ---
 
 ## 🌐 Live Projects Using This API
@@ -49,6 +45,10 @@ This headless CMS currently powers the following **original** applications:
 </table>
 
 > Each project dynamically fetches structured content (sections, items, media) from this centralized API, demonstrating real-world scalability and multi-tenant architecture.
+
+<img width="761" height="627" alt="apisrepo2" src="https://github.com/user-attachments/assets/f75cd575-fb5e-4760-bcfa-9a5b1ff5d77a" />
+
+<img width="763" height="627" alt="apisrepo3" src="https://github.com/user-attachments/assets/6024da5a-a1b9-4957-ad13-41eac4095786" />
 
 ---
 
