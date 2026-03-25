@@ -62,7 +62,7 @@ This headless CMS currently powers the following **original** applications:
 - URL-safe project and section keys
 - Designed for scalability and migration
 
-<img width="779" height="551" alt="apisrepo" src="https://github.com/user-attachments/assets/ee4ed350-940e-47dc-b109-e1b3700f974b" />
+<img width="766" height="551" alt="apisrepo" src="https://github.com/user-attachments/assets/73e0ca54-cf9c-4eba-ad7c-491514843cc2" />
 
 <img width="759" height="625" alt="apisrepo4" src="https://github.com/user-attachments/assets/7445fc75-43fa-4d87-b463-85031b6c4931" />
 
