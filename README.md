@@ -62,14 +62,6 @@ This headless CMS currently powers the following **original** applications:
 
 <img width="766" height="551" alt="apisrepo" src="https://github.com/user-attachments/assets/73e0ca54-cf9c-4eba-ad7c-491514843cc2" />
 
-<img width="759" height="625" alt="apisrepo4" src="https://github.com/user-attachments/assets/7445fc75-43fa-4d87-b463-85031b6c4931" />
-
-<img width="761" height="627" alt="apisrepo5" src="https://github.com/user-attachments/assets/d4d0b943-ba25-4727-ae16-ec4204c608cd" />
-
-<img width="761" height="629" alt="apisrepo6" src="https://github.com/user-attachments/assets/f9cedc42-0290-47c2-bbe1-08342f9a1c24" />
-
-<img width="759" height="625" alt="apisrepo7" src="https://github.com/user-attachments/assets/ed9bba6e-7a87-4aae-96cf-74204df51c9f" />
-
 ---
 
 ## 📂 Project Structure
@@ -218,6 +210,14 @@ Both strategies share the same domain model, enabling easy migration.
 - **Projects**: Create, read, update, delete
 - **Sections**: Defined per project
 - **Items**: Full CRUD within sections, Firestore document-based IDs
+
+<img width="759" height="625" alt="apisrepo4" src="https://github.com/user-attachments/assets/7445fc75-43fa-4d87-b463-85031b6c4931" />
+
+<img width="761" height="627" alt="apisrepo5" src="https://github.com/user-attachments/assets/d4d0b943-ba25-4727-ae16-ec4204c608cd" />
+
+<img width="761" height="629" alt="apisrepo6" src="https://github.com/user-attachments/assets/f9cedc42-0290-47c2-bbe1-08342f9a1c24" />
+
+<img width="759" height="625" alt="apisrepo7" src="https://github.com/user-attachments/assets/ed9bba6e-7a87-4aae-96cf-74204df51c9f" />
 
 ---
 
